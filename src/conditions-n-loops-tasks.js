@@ -22,6 +22,7 @@
  *  -5 => false
  */
 function isPositive(number) {
+  return number >= 0;
 }
 
 /**
@@ -37,8 +38,14 @@ function isPositive(number) {
  *  -5, 0, 5      => 5
  *  -0.1, 0, 0.2  => 0.2
  */
-function getMaxNumber(/* a, b, c */) {
-  throw new Error('Not implemented');
+function getMaxNumber(a, b, c) {
+  if (a > b && a > c) {
+    return a;
+  }
+  if (a < b && b > c) {
+    return b;
+  }
+  return c;
 }
 
 /**
@@ -59,8 +66,17 @@ function getMaxNumber(/* a, b, c */) {
  * {x: 1, y: 1}, {x: 2, y: 8} => false
  * {x: 1, y: 1}, {x: 2, y: 8} => false
  */
-function canQueenCaptureKing(/* queen, king */) {
-  throw new Error('Not implemented');
+function canQueenCaptureKing(queen, king) {
+  const { x: qR, y: qC } = queen;
+  const { x: kR, y: kC } = king;
+
+  if (qR === kR) return true;
+
+  if (qC === kC) return true;
+
+  if (Math.abs(qR - kR) === Math.abs(qC - kC)) return true;
+
+  return false;
 }
 
 /**
@@ -81,8 +97,8 @@ function canQueenCaptureKing(/* queen, king */) {
  *  2, 2, 5   => false
  *  3, 0, 3   => false
  */
-function isIsoscelesTriangle(/* a, b, c */) {
-  throw new Error('Not implemented');
+function isIsoscelesTriangle(a, b, c) {
+  return a + b > c && a + c > b && b + c > a && (a === b || b === c || c === a);
 }
 
 /**
@@ -99,8 +115,42 @@ function isIsoscelesTriangle(/* a, b, c */) {
  *  10  => X
  *  26  => XXVI
  */
-function convertToRomanNumerals(/* num */) {
-  throw new Error('Not implemented');
+function convertToRomanNumerals(num) {
+  if (num < 1 || num > 39) {
+    throw new Error(
+      'Number out of range. Please enter a number between 1 and 39.'
+    );
+  }
+
+  let result = '';
+  let remaining = num;
+
+  while (remaining > 0) {
+    switch (true) {
+      case remaining >= 10:
+        result += 'X';
+        remaining -= 10;
+        break;
+      case remaining >= 9:
+        result += 'IX';
+        remaining -= 9;
+        break;
+      case remaining >= 5:
+        result += 'V';
+        remaining -= 5;
+        break;
+      case remaining >= 4:
+        result += 'IV';
+        remaining -= 4;
+        break;
+      default:
+        result += 'I';
+        remaining -= 1;
+        break;
+    }
+  }
+
+  return result;
 }
 
 /**
@@ -118,8 +168,61 @@ function convertToRomanNumerals(/* num */) {
  *  '10,5'    => 'one zero point five'
  *  '1950.2'  => 'one nine five zero point two'
  */
-function convertNumberToString(/* numberStr */) {
-  throw new Error('Not implemented');
+function convertNumberToString(numberStr) {
+  let result = '';
+
+  for (let i = 0; i < numberStr.length; i += 1) {
+    switch (numberStr[i]) {
+      case '-':
+        result += 'minus ';
+        break;
+      case '0':
+        result += 'zero ';
+        break;
+      case '1':
+        result += 'one ';
+        break;
+      case '2':
+        result += 'two ';
+        break;
+      case '3':
+        result += 'three ';
+        break;
+      case '4':
+        result += 'four ';
+        break;
+      case '5':
+        result += 'five ';
+        break;
+      case '6':
+        result += 'six ';
+        break;
+      case '7':
+        result += 'seven ';
+        break;
+      case '8':
+        result += 'eight ';
+        break;
+      case '9':
+        result += 'nine ';
+        break;
+      case '.':
+        result += 'point ';
+        break;
+      case ',':
+        result += 'point ';
+        break;
+      default:
+        result += '';
+        break;
+    }
+  }
+  let newRes = '';
+  for (let i = 0; i < result.length - 1; i += 1) {
+    newRes += result[i];
+  }
+
+  return newRes;
 }
 
 /**
@@ -271,8 +374,23 @@ function sortByAsc(/* arr */) {
  *  '012345', 3 => '024135' => '043215' => '031425'
  *  'qwerty', 3 => 'qetwry' => 'qtrewy' => 'qrwtey'
  */
-function shuffleChar(/* str, iterations */) {
-  throw new Error('Not implemented');
+function shuffleChar(str, iterations) {
+  let newStr = str;
+  let i = 0;
+  let lessIterations = iterations % (str.length - 2);
+  if (iterations > 100) {
+    lessIterations *= 5;
+  }
+  while (i < lessIterations) {
+    for (let j = 0; j < Math.round(newStr.length / 2); j += 1) {
+      const currentElem = newStr[j + 1];
+      newStr =
+        newStr.substring(0, j + 1) + newStr.substring(j + 2, newStr.length);
+      newStr += currentElem;
+    }
+    i += 1;
+  }
+  return newStr;
 }
 
 /**
